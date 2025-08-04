@@ -8,6 +8,7 @@ app.get('/proxy', async (req, res) => {
     const teamName = req.query.team;
     const apiKey = process.env.SPORTS_API_KEY;
     const apiUrl = `https://api.sportsblaze.com/nfl/v1/rosters/2024.json?key=${apiKey}&team=${encodeURIComponent(teamName)}`;
+    console.log('API Key:', process.env.SportsBlazeAPI);
     
     try {
         const response = await fetch(apiUrl);
