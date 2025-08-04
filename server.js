@@ -4,9 +4,6 @@ import cors from 'cors';
 const app = express();
 app.use(cors());
 
-console.log('API Key:', process.env.SportsBlazeAPI);
-
-
 app.get('/proxy', async (req, res) => {
     const teamName = req.query.team;
     const apiKey = process.env.SportsBlazeAPI;

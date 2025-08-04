@@ -16,3 +16,20 @@
 .roster-item p {
     margin: 0;
 }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+.banner {
+    background-color: #4a90e2; /* or use a background image */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    height: 4em;
+}
+
+.banner p, h1{
+    font-size: 1em;
+}
