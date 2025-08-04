@@ -6,6 +6,20 @@
     <title>Search API</title>
     <link rel="stylesheet" href="index.css">
     <script>
+        async function redeployServer() {
+            const apiUrl = "https://api.render.com/deploy/srv-d28f8tre5dus73d73450?key=xhZ_1bBYPf8";
+            try {
+                const response = await fetch(apiUrl, { method: "POST" });
+                if (!response.ok) {
+                    console.error("Failed to redeploy server:", response.statusText);
+                } else {
+                    console.log("Server redeployed successfully.");
+                }
+            } catch (error) {
+                console.error("Error redeploying server:", error.message);
+            }
+        }
+        window.onload = redeployServer;
         async function fetchTeamRoster(teamName) {
             const apiUrl = `https://nfl-website.onrender.com/proxy?team=${encodeURIComponent(teamName)}`;
             
