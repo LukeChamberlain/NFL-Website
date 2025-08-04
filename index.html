@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search API</title>
+    <link rel="stylesheet" href="index.css">
     <script>
         async function fetchTeamRoster(teamName) {
             const apiUrl = `http://localhost:3000/proxy?team=${encodeURIComponent(teamName)}`;
@@ -18,8 +19,8 @@
                 
                 // Extract roster data
                 const rosterHtml = data.teams[0].roster.map(player => `
-                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                        <img src="${player.headshot.replace('{format}', 'f_auto,q_auto')}" alt="${player.name}" style=" height: 100px; margin-right: 10px;">
+                    <div class="roster-item">
+                        <img src="${player.headshot.replace('{format}', 'f_auto,q_auto')}" alt="${player.name}">
                         <div>
                             <p><strong>${player.name}</strong> (${player.position})</p>
                             <p>Age: ${player.age}</p>

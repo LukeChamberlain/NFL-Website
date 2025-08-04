@@ -1,0 +1,18 @@
+.roster-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.roster-item img {
+    height: 100px;
+    margin-right: 10px;
+}
+
+.roster-item div {
+    font-family: Arial, sans-serif;
+}
+
+.roster-item p {
+    margin: 0;
+}

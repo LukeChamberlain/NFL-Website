@@ -1,15 +1,13 @@
 import express from 'express';
 import fetch from 'node-fetch';
-import cors from 'cors'; // Import the cors package
-
+import cors from 'cors';
 const app = express();
-
-app.use(cors()); // Enable CORS for all routes
+app.use(cors());
 
 app.get('/proxy', async (req, res) => {
     const teamName = req.query.team;
-    const apiKey = 'sbf8hcec51vse9g3ync5oj0';
-    const apiUrl = `https://api.sportsblaze.com/nfl/v1/rosters/2024.json?key=${apiKey}&team=${encodeURIComponent(teamName)}`;
+    const apiKey = process.env.SPORTS_API_KEY;
+    const apiUrl = `https://nfl-website.onrender.com/proxy?team=${encodeURIComponent(teamName)}`;
     
     try {
         const response = await fetch(apiUrl);
@@ -17,7 +15,7 @@ app.get('/proxy', async (req, res) => {
             throw new Error(`API Error: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
-        res.json(data); // Forward the API response to the client
+        res.json(data);
     } catch (error) {
         console.error('Error fetching data:', error.message);
         res.status(500).json({ error: 'Internal Server Error', details: error.message });
