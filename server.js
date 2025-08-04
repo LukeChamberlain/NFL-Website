@@ -7,7 +7,7 @@ app.use(cors());
 app.get('/proxy', async (req, res) => {
     const teamName = req.query.team;
     const apiKey = process.env.SPORTS_API_KEY;
-    const apiUrl = `https://nfl-website.onrender.com/proxy?team=${encodeURIComponent(teamName)}`;
+    const apiUrl = `https://api.sportsblaze.com/nfl/v1/rosters/2024.json?key=${apiKey}&team=${encodeURIComponent(teamName)}`;
     
     try {
         const response = await fetch(apiUrl);
