@@ -38,13 +38,15 @@ app.post("/redeploy", async (req, res) => {
 
 app.post('/ai', async (req, res) => {
     const { messages } = req.body;
-    const HF_TOKEN = process.env.HF_TOKEN;
+    const HF_Token = process.env.HF_Token;
+    console.log("HF_TOKEN is set:", !!HF_Token);
+
   
     try {
       const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${HF_TOKEN}`,
+          "Authorization": `Bearer ${HF_Token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
