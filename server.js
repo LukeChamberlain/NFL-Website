@@ -34,34 +34,38 @@ app.post("/redeploy", async (req, res) => {
       res.status(500).send("Redeploy failed: " + error.message);
     }
 });
-  
+
+
 app.post('/ai', async (req, res) => {
-const { messages } = req.body;
-const HF_TOKEN = process.env.HF_TOKEN;
-
-try {
-    const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
-    method: "POST",
-    headers: {
-        "Authorization": `Bearer ${HF_TOKEN}`,
-        "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-        model: "openai/gpt-oss-120b:fireworks-ai",
-        messages,
-    }),
-    });
-
-    if (!response.ok) {
-    throw new Error(`AI API error: ${response.status} ${response.statusText}`);
+    const { messages } = req.body;
+    const HF_TOKEN = process.env.HF_TOKEN;
+  
+    try {
+      const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${HF_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-oss-120b:fireworks-ai",
+          messages,
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`AI API error response: ${response.status} ${response.statusText}`, errorText);
+        throw new Error(`AI API error: ${response.status} ${response.statusText} - ${errorText}`);
+      }
+  
+      const data = await response.json();
+      res.json(data);
+  
+    } catch (error) {
+      console.error("Error calling AI API:", error);
+      res.status(500).json({ error: "AI API call failed", details: error.message });
     }
-
-    const data = await response.json();
-    res.json(data);
-} catch (error) {
-    console.error("Error calling AI API:", error.message);
-    res.status(500).json({ error: "AI API call failed", details: error.message });
-}
-});
-
+  });
+  
 app.listen(3000, () => console.log('Proxy server running on port 3000'));
