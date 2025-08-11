@@ -6,6 +6,21 @@
     <title>Search API</title>
     <link rel="stylesheet" href="index.css">
     <script>
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+        
+        function drag(ev) {
+            ev.dataTransfer.setData("text/html", ev.target.outerHTML);
+        }
+        
+        function drop(ev, boxNumber) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text/html");
+            document.querySelector(`#tradeBox${boxNumber} .trade-players`).innerHTML += data;
+        }
+
         async function redeployServer() {
             const apiUrl = "https://api.render.com/deploy/srv-d28f8tre5dus73d73450?key=xhZ_1bBYPf8";
             try {
@@ -49,7 +64,7 @@
                     const age = player.age !== undefined && player.age !== null ? player.age : "N/A";
         
                     return `
-                        <div class="roster-item">
+                        <div class="roster-item" draggable="true" ondragstart="drag(event)">
                             <img src="${headshotUrl}" alt="${name}">
                             <div>
                                 <p><strong>${name}</strong> (${position})</p>
@@ -116,6 +131,16 @@
             </select>
             <div id="results1"></div>
         </div>
+        <div class="trade-boxes-container">
+            <div id="tradeBox1" class="trade-box" ondrop="drop(event, 1)" ondragover="allowDrop(event)">
+                <h3>Trade Box 1</h3>
+                <div class="trade-players"></div>
+            </div>
+            <div id="tradeBox2" class="trade-box" ondrop="drop(event, 2)" ondragover="allowDrop(event)">
+                <h3>Trade Box 2</h3>
+                <div class="trade-players"></div>
+            </div>
+        </div>
         <div class="team-panel">
             <h2>Team 2</h2>
             <label for="teamDropdown2">Select a team:</label>
@@ -156,5 +181,6 @@
             </select>
             <div id="results2"></div>
         </div>
+        
 </body>
 </html>

@@ -22,12 +22,12 @@ body {
   }
 
 .banner {
-    background-color: #4a90e2; /* or use a background image */
+    background-color: #4a90e2;
     color: white;
     text-align: center;
     padding: 10px;
     position: relative;
-    height: 4em;
+    height: 5em;
 }
 
 .banner p, h1{
@@ -51,23 +51,6 @@ body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f2f4f8;
-}
-
-.banner {
-    background-color: #1e3a8a;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-
-.banner h1 {
-    margin: 0;
-    font-size: 1.8em;
-}
-
-.banner p {
-    margin: 5px 0 0;
-    font-size: 1em;
 }
 
 h1 {
@@ -117,7 +100,7 @@ h1 {
 #results2 {
     flex: 1;
     overflow-y: auto;
-    padding-right: 10px; /* Avoid content hiding behind scrollbar */
+    padding-right: 10px;
 }
 
 .roster-item {
@@ -145,3 +128,31 @@ h1 {
     margin: 0;
     color: #333;
 }
+
+.trade-boxes-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 2rem 0;
+}
+
+.trade-box {
+    width: 250px;
+    min-height: 300px;
+    border: 2px dashed #4a90e2;
+    border-radius: 12px;
+    background: #f9fbff;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.trade-box h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #1e3a8a;
+}
+
+.trade-players {
+    min-height: 200px;
+}
+
