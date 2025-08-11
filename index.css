@@ -119,6 +119,13 @@ h1 {
     margin-right: 10px;
     border: 1px solid #ddd;
 }
+.roster-item img.delete-btn {
+    border-radius: 0;
+    width: 16px;
+    height: 16px;
+    border: none;
+    margin-right: 0;
+}
 
 .roster-item div {
     font-family: Arial, sans-serif;

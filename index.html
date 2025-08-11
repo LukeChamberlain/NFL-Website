@@ -5,84 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search API</title>
     <link rel="stylesheet" href="index.css">
-    <script>
-
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-        
-        function drag(ev) {
-            ev.dataTransfer.setData("text/html", ev.target.outerHTML);
-        }
-        
-        function drop(ev, boxNumber) {
-            ev.preventDefault();
-            const data = ev.dataTransfer.getData("text/html");
-            document.querySelector(`#tradeBox${boxNumber} .trade-players`).innerHTML += data;
-        }
-
-        async function redeployServer() {
-            const apiUrl = "https://api.render.com/deploy/srv-d28f8tre5dus73d73450?key=xhZ_1bBYPf8";
-            try {
-                const response = await fetch(apiUrl, { method: "POST" });
-                if (!response.ok) {
-                    console.error("Failed to redeploy server:", response.statusText);
-                } else {
-                    console.log("Server redeployed successfully.");
-                }
-            } catch (error) {
-                console.error("Error redeploying server:", error.message);
-            }
-        }
-        window.onload = redeployServer;
-        function onTeamSelect(teamNumber) {
-            const dropdownId = `teamDropdown${teamNumber}`;
-            const selectedTeam = document.getElementById(dropdownId).value;
-            if (selectedTeam) {
-                fetchTeamRoster(selectedTeam, teamNumber);
-            }
-        }
-        
-        async function fetchTeamRoster(teamName, teamNumber) {
-            const apiUrl = `https://nfl-website.onrender.com/proxy?team=${encodeURIComponent(teamName)}`;
-            const resultsDiv = document.getElementById(`results${teamNumber}`);
-            const defaultHeadshot = "default-headshot.png";
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error('Roster not found or API error');
-                }
-                const data = await response.json();
-        
-                const rosterHtml = data.teams[0].roster.map(player => {
-                    const headshotUrl = player.headshot && player.headshot.includes('{format}')
-                        ? player.headshot.replace('{format}', 'f_auto,q_auto')
-                        : defaultHeadshot;
-        
-                    const name = player.name || "N/A";
-                    const position = player.position || "N/A";
-                    const age = player.age !== undefined && player.age !== null ? player.age : "N/A";
-        
-                    return `
-                        <div class="roster-item" draggable="true" ondragstart="drag(event)">
-                            <img src="${headshotUrl}" alt="${name}">
-                            <div>
-                                <p><strong>${name}</strong> (${position})</p>
-                                <p>Age: ${age}</p>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-        
-                resultsDiv.innerHTML = `
-                    <h2>${teamName} Roster</h2>
-                    ${rosterHtml}
-                `;
-            } catch (error) {
-                resultsDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
-            }
-        }        
-    </script>
 </head>
 <body>
     <div class="banner">
@@ -91,7 +13,7 @@
     </div>
     <h1>Search NFL Teams</h1>
     <div class="team-compare-container">
-        <div class="team-panel">
+        <div class="team-panel" id="teamPanel1">
             <h2>Team 1</h2>
             <label for="teamDropdown1">Select a team:</label>
             <select id="teamDropdown1" onchange="onTeamSelect(1)">
@@ -141,7 +63,7 @@
                 <div class="trade-players"></div>
             </div>
         </div>
-        <div class="team-panel">
+        <div class="team-panel" id="teamPanel2">
             <h2>Team 2</h2>
             <label for="teamDropdown2">Select a team:</label>
             <select id="teamDropdown2" onchange="onTeamSelect(2)">
@@ -181,6 +103,6 @@
             </select>
             <div id="results2"></div>
         </div>
-        
+<script src="index.js"></script>     
 </body>
 </html>
