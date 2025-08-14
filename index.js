@@ -17,7 +17,7 @@ async function callAI(messages) {
 
 document.addEventListener("DOMContentLoaded", () => {
     const tradeButton = document.getElementById("tradeButton");
-    const aiResultDiv = document.getElementById("aiResult"); // ✅ Add this to HTML
+    const aiResultDiv = document.getElementById("aiResult");
 
     if (!tradeButton) return;
 
@@ -53,14 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
             } catch (err) {
                 throw new Error("AI response was not valid JSON. Response: " + aiResponse);
             }
-
-            // Display results on the page
             aiResultDiv.innerHTML = `
                 <h3>Trade Analysis</h3>
-                <p><strong>Team 1 Agreement Chance:</strong> ${parsed.team1_agree_percent}%</p>
-                <p><strong>Team 2 Agreement Chance:</strong> ${parsed.team2_agree_percent}%</p>
+                <p><strong>Team A Agreement Chance:</strong> ${parsed.team1_agree_percent}%</p>
+                <p><strong>Team B Agreement Chance:</strong> ${parsed.team2_agree_percent}%</p>
                 <p><strong>Analysis:</strong> ${parsed.analysis}</p>
             `;
+            aiResultDiv.classList.add("show");
         } catch (err) {
             console.error("Trade AI Error:", err);
             aiResultDiv.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
