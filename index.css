@@ -68,6 +68,15 @@ h2 {
     font-weight: 900;
 }
 
+h4 {
+    text-align: center;
+    margin-top: 0.25rem;
+    color: #ff9248;
+    font-family: 'Tourney';
+    font-weight: 900;
+    font-size: 1rem;
+}
+
 .team-compare-container {
     display: flex;
     justify-content: center;
