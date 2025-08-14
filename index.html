@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search API</title>
+    <title>NFL Trade Simulator</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="banner">
         <h1>Welcome to the demo of my NFL trade website</h1>
-        <p>This website is currently underconstruction</p>
+        <p>Because this is personal project please allow up to 1 minute for the server to spin up apon page load</p>
     </div>
-    <h1>Search NFL Teams</h1>
+    <h2>Search NFL Teams</h2>
     <div class="team-compare-container">
         <div class="team-panel" id="teamPanel1">
-            <h2>Team 1</h2>
+            <h2>Team A</h2>
             <label for="teamDropdown1">Select a team:</label>
             <select id="teamDropdown1" onchange="onTeamSelect(1)">
                 <option value="">--Select a team--</option>
@@ -55,16 +55,19 @@
         </div>
         <div class="trade-boxes-container">
             <div id="tradeBox1" class="trade-box" ondrop="drop(event, 1)" ondragover="allowDrop(event)">
-                <h3>Trade Box 1</h3>
+                <h3>Trade Box A</h3>
                 <div class="trade-players"></div>
             </div>
+            <div class="trade-action">
+                <button class="tradebutton" role="button"><span class="text">propose trade</span></button>
+            </div>
             <div id="tradeBox2" class="trade-box" ondrop="drop(event, 2)" ondragover="allowDrop(event)">
-                <h3>Trade Box 2</h3>
+                <h3>Trade Box B</h3>
                 <div class="trade-players"></div>
             </div>
         </div>
         <div class="team-panel" id="teamPanel2">
-            <h2>Team 2</h2>
+            <h2>Team B</h2>
             <label for="teamDropdown2">Select a team:</label>
             <select id="teamDropdown2" onchange="onTeamSelect(2)">
                 <option value="">--Select a team--</option>
@@ -103,6 +106,7 @@
             </select>
             <div id="results2"></div>
         </div>
+        <div id="aiResult"></div>
 <script src="index.js"></script>     
 </body>
 </html>

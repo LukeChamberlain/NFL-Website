@@ -4,19 +4,70 @@ const baseUrl = window.location.hostname.includes("localhost") || window.locatio
     : "https://nfl-website.onrender.com";
 
 async function callAI(messages) {
-  const response = await fetch(`${backendUrl}/ai`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages }),
-  });
+    const response = await fetch(`${backendUrl}/ai`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages }),
+    });
 
-  if (!response.ok) throw new Error(`Server error: ${response.status}`);
-  const data = await response.json();
-  return data.choices[0].message.content;
+    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+    const data = await response.json();
+    return data.choices[0].message.content;
 }
-  callAI([{ role: 'user', content: 'What is the capital of France?' }])
-    .then(console.log)
-    .catch(console.error);
+
+document.addEventListener("DOMContentLoaded", () => {
+    const tradeButton = document.getElementById("tradeButton");
+    const aiResultDiv = document.getElementById("aiResult"); // ✅ Add this to HTML
+
+    if (!tradeButton) return;
+
+    tradeButton.addEventListener("click", async () => {
+        try {
+            const trade1Players = [...document.querySelectorAll("#tradeBox1 .roster-item")]
+                .map(el => el.querySelector("strong")?.textContent || "Unknown");
+            const trade2Players = [...document.querySelectorAll("#tradeBox2 .roster-item")]
+                .map(el => el.querySelector("strong")?.textContent || "Unknown");
+
+            const tradePrompt = `
+                You are an NFL trade evaluation expert.
+                Evaluate the following trade and return ONLY a JSON object with this structure:
+                {
+                    "team1_agree_percent": number, 
+                    "team2_agree_percent": number, 
+                    "analysis": string
+                }
+                Percentages should be from 0 to 100 indicating the likelihood each team would agree.
+                "analysis" should briefly explain why each team likely would or wouldn’t agree.
+
+                Trade Proposal:
+                Team 1 gives: ${trade1Players.join(", ") || "No players"}.
+                Team 2 gives: ${trade2Players.join(", ") || "No players"}.
+            `;
+
+            const aiResponse = await callAI([{ role: "user", content: tradePrompt }]);
+            console.log("Raw AI Response:", aiResponse);
+
+            let parsed;
+            try {
+                parsed = JSON.parse(aiResponse);
+            } catch (err) {
+                throw new Error("AI response was not valid JSON. Response: " + aiResponse);
+            }
+
+            // Display results on the page
+            aiResultDiv.innerHTML = `
+                <h3>Trade Analysis</h3>
+                <p><strong>Team 1 Agreement Chance:</strong> ${parsed.team1_agree_percent}%</p>
+                <p><strong>Team 2 Agreement Chance:</strong> ${parsed.team2_agree_percent}%</p>
+                <p><strong>Analysis:</strong> ${parsed.analysis}</p>
+            `;
+        } catch (err) {
+            console.error("Trade AI Error:", err);
+            aiResultDiv.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+        }
+    });
+});
+
   
 function allowDrop(ev) {
     ev.preventDefault();
@@ -56,11 +107,11 @@ function addDeleteButton(playerEl, boxNumber) {
     if (playerEl.querySelector('.delete-btn')) return;
 
     const deleteImg = document.createElement('img');
-    deleteImg.src = 'red-trash-can-icon.png'; // Replace with your image path
+    deleteImg.src = 'red-trash-can-icon.png';
     deleteImg.alt = 'Remove player';
-    deleteImg.className = 'delete-btn'; // For styling if needed
+    deleteImg.className = 'delete-btn';
     deleteImg.title = 'Remove player';
-    deleteImg.style.width = '20px'; // adjust as needed
+    deleteImg.style.width = '20px';
     deleteImg.style.height = '20px';
     deleteImg.style.cursor = 'pointer';
 
@@ -83,8 +134,6 @@ function addDeleteButton(playerEl, boxNumber) {
 
     playerEl.appendChild(deleteImg);
 }
-
-
 
 async function redeployServer() {
     if (window.location.hostname.includes("localhost") || window.location.hostname.includes("127.0.0.1")) {
