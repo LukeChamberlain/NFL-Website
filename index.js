@@ -32,16 +32,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 You are an NFL trade evaluation expert.
                 Evaluate the following trade and return ONLY a JSON object with this structure:
                 {
-                    "team1_agree_percent": number, 
-                    "team2_agree_percent": number, 
+                    "teamA_agree_percent": number, 
+                    "teamB_agree_percent": number, 
                     "analysis": string
                 }
                 Percentages should be from 0 to 100 indicating the likelihood each team would agree.
                 "analysis" should briefly explain why each team likely would or wouldn’t agree.
 
                 Trade Proposal:
-                Team 1 gives: ${trade1Players.join(", ") || "No players"}.
-                Team 2 gives: ${trade2Players.join(", ") || "No players"}.
+                Team A gives: ${trade1Players.join(", ") || "No players"}.
+                Team A receives: ${trade2Players.join(", ") || "No players"}.
+                Team B gives: ${trade2Players.join(", ") || "No players"}.
+                Team B receives: ${trade1Players.join(", ") || "No players"}.
+
             `;
 
             const aiResponse = await callAI([{ role: "user", content: tradePrompt }]);
@@ -55,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             aiResultDiv.innerHTML = `
                 <h3>Trade Analysis</h3>
-                <p><strong>Team A Agreement Chance:</strong> ${parsed.team1_agree_percent}%</p>
-                <p><strong>Team B Agreement Chance:</strong> ${parsed.team2_agree_percent}%</p>
+                <p><strong>Team A Agreement Chance:</strong> ${parsed.teamA_agree_percent}%</p>
+                <p><strong>Team B Agreement Chance:</strong> ${parsed.teamB_agree_percent}%</p>
                 <p><strong>Analysis:</strong> ${parsed.analysis}</p>
             `;
             aiResultDiv.classList.add("show");
